@@ -3,23 +3,32 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": false
         },
         {
             "name": "Python: Test",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": false,
             "purpose": [
                 "debug-test",
                 "debug-in-terminal"
             ]
+        },
+        {
+            "name": "app",
+            "type": "debugpy",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/myapp/executable",
+            "args": [
+                "run"
+            ],
+            "program": "${workspaceFolder}/myapp/executable/main.py"
         }
     ]
 }

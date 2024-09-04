@@ -31,3 +31,13 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
+
+[tool.coverage.run]
+omit = ['myapp/tests/*', 'myapp/**/__init__.py']
+
+[tool.coverage.report]
+omit = ['myapp/tests/*', 'myapp/**/__init__.py']
+
+[tool.coverage.html]
+skip_covered = false
+skip_empty = true
