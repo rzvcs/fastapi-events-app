@@ -43,7 +43,11 @@ def event_bucket_get(
     event_bucket: str = fastapi.Path(..., pattern=EVENT_BUCKET_PATTERN),
 ) -> str:
     with state.sessionmaker() as session:
-        data = session.query(EventsSql.event_id).all()
+        data = (
+            session.query(EventsSql.event_id)
+            .where(EventsSql.event_bucket == event_bucket)
+            .all()
+        )
 
     if len(data) == 0:
         raise fastapi.HTTPException(

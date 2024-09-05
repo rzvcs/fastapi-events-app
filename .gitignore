@@ -1,3 +1,7 @@
 venv
 *.egg-info
 *.db
+.coverage
+junit.xml
+myapp/executable/__pycache__
+myapp/tests/__pycache__

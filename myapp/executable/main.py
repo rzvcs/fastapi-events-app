@@ -21,6 +21,8 @@ def get_app_fastapi(state: State) -> fastapi.FastAPI:
         title="Fastapi Events App",
         version="1.0",
     )
+    state.logger.info("for the purpose of this app, create events table")
+    state.create_events_table()
     app.state.mystate = state
 
     async def app_on_startup() -> None:
