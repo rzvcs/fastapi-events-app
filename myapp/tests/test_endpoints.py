@@ -1,7 +1,5 @@
 from uuid import UUID
 
-import pandas as pd
-import sqlalchemy
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.future.engine import Engine
