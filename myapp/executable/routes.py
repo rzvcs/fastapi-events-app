@@ -28,6 +28,7 @@ def event_bucket_put(
     data = EventsSql(
         event_bucket=event_bucket, event_id=uuid, title=body.title, message=body.message
     )
+    state.logger.info("Writing to database")
     with state.sessionmaker() as session:
         session.add(data)
         session.commit()
@@ -42,6 +43,7 @@ def event_bucket_get(
     state: State_,
     event_bucket: str = fastapi.Path(..., pattern=EVENT_BUCKET_PATTERN),
 ) -> str:
+    state.logger.info("Querying database for event_bucket")
     with state.sessionmaker() as session:
         data = (
             session.query(EventsSql.event_id)
@@ -50,6 +52,7 @@ def event_bucket_get(
         )
 
     if len(data) == 0:
+        state.logger.error(f"{event_bucket} not found")
         raise fastapi.HTTPException(
             status_code=fastapi.status.HTTP_404_NOT_FOUND,
             detail=f"{event_bucket} does not exist.",
@@ -69,6 +72,7 @@ def event_bucket_id_get(
     event_bucket: str = fastapi.Path(..., pattern=EVENT_BUCKET_PATTERN),
     event_id: UUID = fastapi.Path(...),
 ) -> str:
+    state.logger.info("Querying database for event_bucket and event_id")
     with state.sessionmaker() as session:
         data = (
             session.query(EventsSql)
@@ -78,6 +82,7 @@ def event_bucket_id_get(
         )
 
     if data is None:
+        state.logger.error(f"{event_id} for {event_bucket} not found")
         raise fastapi.HTTPException(
             status_code=fastapi.status.HTTP_404_NOT_FOUND,
             detail=f"{event_id} in {event_bucket} does not exist.",
