@@ -9,20 +9,8 @@ from myapp.executable.main import get_app_fastapi
 
 
 @fixture()
-def sql_engine() -> Engine:
-    # https://stackoverflow.com/questions/21766960/operationalerror-no-such-table-in-flask-with-sqlalchemy
-    return create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
-
-
-@fixture()
-def state(sql_engine: Engine) -> State:
+def state() -> State:
     state = State()
-    state.engine = sql_engine
-    state.sessionmaker = sessionmaker(state.engine)
     return state
 
 
