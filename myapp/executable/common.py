@@ -5,6 +5,7 @@ from uuid import uuid4
 import fastapi
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from myapp.executable.models import Base, EventsSql
 
@@ -12,7 +13,12 @@ from myapp.executable.models import Base, EventsSql
 class State:
     def __init__(self) -> None:
         self.logger = logging.getLogger("executable")
-        self.engine = create_engine("sqlite:///main.db")
+        # https://stackoverflow.com/questions/21766960/operationalerror-no-such-table-in-flask-with-sqlalchemy
+        self.engine = create_engine(
+            "sqlite:///:memory:",
+            connect_args={"check_same_thread": False},
+            poolclass=StaticPool,
+        )
         self.sessionmaker = sessionmaker(self.engine)
 
     def create_events_table(self) -> None:
